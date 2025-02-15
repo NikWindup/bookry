@@ -6,8 +6,8 @@ Small Project for my beloved girlfriend.
 
 ---
 
-Bookry is a simple App for tracking how many and which books you have read in that specific year.
+Bookry is a simple App for tracking the books you have read in that specific year.
 
 ## Resources used
 * Django for the backend
-* React and Vute for the frontend
+* React and Vite for the frontend
