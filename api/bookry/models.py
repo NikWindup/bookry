@@ -17,13 +17,15 @@ class Book(models.Model):
         ('OTH', 'Other'),
     ]
     
-    name = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default='OTH')
     rating = models.PositiveSmallIntegerField()
     language = models.CharField(max_length=50)
     description = models.TextField()
     cover_image = models.ImageField()
+    started_reading = models.DateTimeField(auto_now_add=True)
+    finished_reading = models.DateTimeField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.title} by {self.author}"
