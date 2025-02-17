@@ -14,8 +14,8 @@ class Book(models.Model):
     cover_image = models.ImageField(null=True)
     started_reading = models.DateTimeField(auto_now_add=True, null=True)
     finished_reading = models.DateTimeField(blank=True, null=True)
+    genres = models.ManyToManyField('Genre', related_name='books')
     
     
 class Genre(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True, related_name='genres')
-    genre = models.CharField(max_length=50, unique=True, null=True)
+    genre = models.CharField(max_length=50, null=True)
