@@ -1,0 +1,15 @@
+body {
+    background-color: #efeee7;
+    font-family:Arial, Helvetica, sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+.header-wrapper {
+    color: gray;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    border-bottom: solid 1px gray;
+}

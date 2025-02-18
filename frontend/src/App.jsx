@@ -1,11 +1,26 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './App.css'
 
-function App() {
-  axios.get('http://loacalhost:8000/books/').then(response => {console.log(response.data)})
+const author = {
+    firstName: "Kristina",
+    lastName: "Ziegler"
+}
 
-  return ("hello")
+const header = (
+  <header>
+    <div className='header-wrapper'>
+        <h2>Books</h2>
+    </div>
+  </header>
+)
+
+
+function App() {
+
+  return (
+    [header]
+  )
     
 }
 
