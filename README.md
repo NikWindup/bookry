@@ -1,6 +1,7 @@
-<img alt="bookry" src="assets\images\book.png" width=100>
+<img alt="bookry" src="assets\images\books.png" width=100>
 
 # bookry 
+
 
 Small Project for my beloved girlfriend.
 
