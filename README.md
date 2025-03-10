@@ -13,3 +13,6 @@ Bookry is a simple App for tracking the books you have read in that specific yea
 * React and Vite for the frontend
 * Axios to request from the api
 * django-cors-headers to enable the frontend to make requests to the backend
+
+## Update
+* 10.03.2025: Changend from React to Flet
