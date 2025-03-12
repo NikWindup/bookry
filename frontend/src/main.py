@@ -1,14 +1,17 @@
 import flet as ft
-import time
-
-from django.db.models import TextField
 
 
 def main(page: ft.Page):
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
     def check_credentials(e: ft.ControlEvent):
         if username.value and password.value:
             print(username.value, password.value)
+
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.window.width = 200
+    page.window.height = 250
+    page.window.resizable = False
+    page.route = "/"
+
 
     #  Login Page
     username = ft.TextField(width=250, multiline=False)
@@ -29,7 +32,6 @@ def main(page: ft.Page):
                     alignment=ft.MainAxisAlignment.CENTER
                 )
             ],
-            alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER
         )
     )
