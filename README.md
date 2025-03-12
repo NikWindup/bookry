@@ -1,4 +1,3 @@
-<img alt="bookry" src="assets\images\books.png" width=100>
 
 # bookry 
 
@@ -11,6 +10,5 @@ Bookry is a simple App for tracking the books you have read in that specific yea
 
 ## Resources used
 * Django for the backend
-* React and Vite for the frontend
-* requests to request from the api
-* django-cors-headers to enable the frontend to make requests to the backend
+* Flet for frontend
+* requests to get data from the api
