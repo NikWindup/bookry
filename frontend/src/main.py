@@ -1,37 +1,94 @@
 import flet as ft
-from flet.core.control_event import ControlEvent
-from flet.core.page import RouteChangeEvent
 
 
-class AppLayout:
+class GameCodePage(ft.View):
 
     def __init__(self, page: ft.Page):
-
-
-
-class MainMenu(ft.Column):
-
-    def __init__(self, page: ft.Page):
-        super().__init__()
-
-
-
-class LoginPage(ft.Column):
-
-    def __init__(self):
-        super().__init__()
+        super().__init__("/main-menu")
 
         self.page = page
 
+        self.page.appbar = ft.AppBar(
+            leading=ft.IconButton(icon=ft.Icons.KEYBOARD_RETURN, width=50, height=50, on_click=lambda  _: self.page.go("/main-menu")))
+
+        self.controls = [
+            self.page.appbar,
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.TextField(hint_text="Game Code"),
+                        ft.FilledButton(text="Join", width=250, height=50)
+                    ]
+                )
+            )
+        ]
+
+
+class SettingsMenu(ft.View):
+    def __init__(self, page: ft.Page):
+        super().__init__("/settings")
+
+        self.page = page
+
+        self.page.appbar = ft.AppBar(
+            leading=ft.IconButton(icon=ft.Icons.KEYBOARD_RETURN, width=50, height=50, on_click=lambda  _: self.page.go("/main-menu")),
+        )
+
+        self.controls = [
+            self.page.appbar,
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.FilledButton(text="Change Username", width=250, height=50),
+                        ft.FilledButton(text="Change Password", width=250, height=50)
+                    ]
+
+                )
+            )
+        ]
+
+
+class MainMenu(ft.View):
+
+    def __init__(self, page: ft.Page):
+        super().__init__("/main-menu")
+        self.page = page
+        self.page.appbar = ft.AppBar(
+            leading=ft.IconButton(icon=ft.Icons.KEYBOARD_RETURN, width=50, height=50, on_click=lambda  _: self.page.go("/sign-in")),
+            actions=[
+                ft.IconButton(icon=ft.Icons.SETTINGS, width=50, height=50, on_click=lambda _: self.page.go("/settings"))
+            ]
+        )
+
+        self.controls = [
+            self.page.appbar,
+            ft.Container(
+                content=
+                    ft.Column(
+                        controls=[
+                            ft.FilledButton(text="Join", width=250, height=50, on_click=lambda _: self.page.go("/game-code")),
+                            ft.FilledButton(text="Create Match", width=250, height=50),
+                            ft.FilledButton(text="Create Tournament", width=250, height=50)
+                        ]
+                    ),
+                alignment=ft.alignment.center
+            )
+        ]
+
+
+class SignInPage(ft.View):
+
+    def __init__(self, page: ft.Page):
+        super().__init__("/sign-in")
+        self.page = page
         header = ft.Text(value="Sign In", text_align=ft.TextAlign.CENTER, size=30)
         username = ft.TextField(width=250, multiline=False)
         password = ft.TextField(width=250, password=True, multiline=False)
-        sign_up_button = ft.FilledButton(text="Sign Up", width=150, height=30, on_click=lambda  _: self.page.go("/signup"))
-        login_button = ft.FilledButton(text="Sign In", on_click=lambda  _: self.page.go("/home"), width=150, height=30)
+        sign_up_button = ft.FilledButton(text="Sign Up", width=150, height=40, on_click=lambda  _: self.page.go("/main-menu"))
+        sign_in_button = ft.FilledButton(text="Sign In", width=150, height=40, on_click=lambda  _: self.page.go("/main-menu"))
 
-        page.add(
+        self.controls = [
             ft.Container(
-                alignment=ft.alignment.center,
                 content=ft.Column(
                     controls=[
                         header,
@@ -40,54 +97,42 @@ class LoginPage(ft.Column):
                         ft.Row(
                             controls=[
                                 sign_up_button,
-                                login_button
+                                sign_in_button,
                             ],
-                            alignment=ft.MainAxisAlignment.CENTER
+                            alignment=ft.MainAxisAlignment.SPACE_EVENLY
                         )
                     ],
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    alignment=ft.MainAxisAlignment.CENTER
-                )
+                    alignment=ft.alignment.center
+                ),
+                alignment=ft.alignment.center,
             )
-        )
-
-        self.page.update()
-
+        ]
+        self.horizontal_alignment = ft.MainAxisAlignment.CENTER
+        self.vertical_alignment = ft.CrossAxisAlignment.CENTER
 
 def main(page: ft.Page):
-    def main_menu(e: ControlEvent):
-        if username.value and password.value:
-            page.window.resizable = True
-            page.clean()
-            page.appbar = ft.AppBar(
-                leading=ft.IconButton(icon=ft.Icons.ARROW_BACK_IOS, width=50, height=50, on_click=login_menu),
-                actions=[
-                    ft.IconButton(icon=ft.Icons.SETTINGS, width=50, height=50)
-                ]
 
-            )
-        page.add(
-            ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.FilledButton(text="Join", width=250, height=50),
-                        ft.FilledButton(text="Create Game", width=250, height=50),
-                        ft.FilledButton(text="Create Tournament", width=250, height=50)
-                    ]
-                ),
-                alignment=ft.alignment.center
-            )
-        )
+    def route_change(e):
+        page.views.clear()
+        if page.route == "/sign-in":
+            page.views.append(SignInPage(page))
+        elif page.route == "/game-code":
+            page.views.append(GameCodePage(page))
+        elif page.route == "/main-menu":
+            page.views.append(MainMenu(page))
+        elif page.route == "/settings":
+            page.views.append(SettingsMenu(page))
 
         page.update()
 
     page.window.width = 400
     page.window.height = 450
-    page.window.resizable = False
     page.window.center()
     page.window.bgcolor = "SYSTEM"
 
-    LoginMenu()
+    page.on_route_change = route_change
+    page.go("/sign-in")
+
 
 if __name__ == "__main__":
     ft.app(target=main)
