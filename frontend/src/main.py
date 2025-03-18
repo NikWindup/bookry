@@ -19,7 +19,8 @@ class GameCodePage(ft.View):
                         ft.TextField(hint_text="Game Code"),
                         ft.FilledButton(text="Join", width=250, height=50)
                     ]
-                )
+                ),
+                alignment=ft.alignment.center
             )
         ]
 
@@ -29,6 +30,14 @@ class SettingsMenu(ft.View):
         super().__init__("/settings")
 
         self.page = page
+
+        self.language_dropdown = ft.Dropdown(
+            width=250,
+            options=[
+                ft.dropdown.Option("German"),
+                ft.dropdown.Option("English"),
+            ]
+        )
 
         self.page.appbar = ft.AppBar(
             leading=ft.IconButton(icon=ft.Icons.KEYBOARD_RETURN, width=50, height=50, on_click=lambda  _: self.page.go("/main-menu")),
@@ -40,10 +49,12 @@ class SettingsMenu(ft.View):
                 content=ft.Column(
                     controls=[
                         ft.FilledButton(text="Change Username", width=250, height=50),
+                        self.language_dropdown,
                         ft.FilledButton(text="Change Password", width=250, height=50)
-                    ]
-
-                )
+                    ],
+                    spacing=50
+                ),
+                alignment=ft.alignment.center,
             )
         ]
 
