@@ -5,7 +5,7 @@ import os.path
 
 class Dao:
 
-    __path = os.path.join("api", "db.sqlite3")
+    __path = os.path.join("api", "bookry.db")
     
     @staticmethod
     def connect() -> Connection:

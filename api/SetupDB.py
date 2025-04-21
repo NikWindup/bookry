@@ -51,7 +51,7 @@ class SetupDB(Dao):
         sql = """
         CREATE TABLE IF NOT EXISTS user (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
             username TEXT NOT NULL
         )
         """

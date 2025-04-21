@@ -1,4 +1,5 @@
 db.sqlite3
+bookry.db
 __pycache__
 /bookry/migrations/
  Byte-compiled / optimized / DLL files

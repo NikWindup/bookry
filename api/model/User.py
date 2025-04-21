@@ -4,16 +4,28 @@ class User:
         
         self.__id = id
         self.__email = email
-        self.username = username
+        self.__username = username
     
     @property
     def id(self):
         return self.__id
     
+    @id.setter
+    def id(self, value):
+        self.__id = value
+    
     @property
     def email(self):
         return self.__email
+    
+    @email.setter
+    def email(self, value):
+        self.__email = value
 
     @property
     def username(self):
-        return self.username
+        return self.__username
+
+    @username.setter
+    def username(self, value):
+        self.__username = value
