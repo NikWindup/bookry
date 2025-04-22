@@ -3,69 +3,23 @@ Tutorial: https://fastapi.tiangolo.com/tutorial
 """
 
 from fastapi import FastAPI
-from pydantic import BaseModel
-from enum import Enum
-from typing import List
+
+from SetupDB import SetupDB
+from dao.BookDao import BookDao
+from dao.GenreDao import GenreDao
+from dao.BookGenreDao import BookGenreDao
+from dao.AuthorDao import AuthorDao
 
 
-class Genre(str, Enum):
-    """Where I found the genres: https://blog.reedsy.com/book-genres/"""
-    
-    """Fiction genres"""
-    fantasy = "fantasy"
-    science_fiction = "science-fiction"
-    romance = "romance"
-    action = "action"
-    adventure = "adventure"
-    mystery = "mystery"
-    horror = "horror"
-    thriller = "thriller"
-    suspense = "suspense"
-    dystopian = "dystopian"
-    big_brain = "Big Brain 🧠"
-    
-    """Nonfiction genres"""
-    biography = "biography"
-    history = "history"
-    travel = "travel"
-    humor = "humor"
-    essay = "essay"
-    how_to = "how-to"
-    science_technology = "science-&-technology"
 
-
-class Book(BaseModel):
-    title: str
-    author: str
-    language: str
-    genres: List[Genre]
-    started: str
-    finished: str
-    rating: int
-    
 
 app = FastAPI()
 
-@app.get("/genres/{genre}")
-async def get_genre(genre: Genre):
-    if genre is Genre.fantasy:
-        return {"genre" : genre, "message" : "You are reading Fantasy"}
+@app.get("/books/{book_name}")
+async def get_book(book: Book):
     
-    if genre is Genre.romance:
-        print(genre)
-        return {"genre" : genre, "message" : f"You are reading {genre}"}
-    
-    if genre is Genre.action:
-        return {"genre" : genre, "message" : f"You are reading {genre}"}
-    
-    if genre is Genre.adventure:
-        return {"genre" : genre, "message" : f"You are reading {genre}"}
-    
-    if genre is Genre.biography:
-        return {"genre" : genre, "message" : f"You are reading {genre}"}
-    
-    return {"genre" : genre, "message" : "what happened"}
+    return {"book_id" : book_id,}
 
-@app.post("/genres/")
-async def post_genre(genre: Genre):
-    return genre
+@app.post("/books/")
+async def post_book(book: Book):
+    return {"message": "Succesfully added book","book": book.model_dump()}

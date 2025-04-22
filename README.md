@@ -9,8 +9,8 @@ Small Project for my beloved girlfriend.
 Bookry is a simple App for tracking the books you have read in that specific year.
 
 ## Resources
-* Fastapi
-* Flet
+### API's
+- https://openlibrary.org/
 
 ## TODO
 - [x] Create/Setup Database
@@ -22,5 +22,6 @@ Bookry is a simple App for tracking the books you have read in that specific yea
 
 ## Setup
 
-Run SetupDB.py 
-
+1. Run /api/SetupDB.py 
+2. Run /api/main.py
+3. Run /frontend/main.py

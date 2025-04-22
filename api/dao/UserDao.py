@@ -1,6 +1,6 @@
 from sqlite3 import Connection, Cursor
-from api.dao.Dao import Dao
-from api.model.User import User
+from dao.Dao import Dao
+from model.User import User
 
 
 class UserDao(Dao):
@@ -8,12 +8,12 @@ class UserDao(Dao):
     @staticmethod
     def insert(user: User) -> User:
         sql = """
-        INSERT INTO user (user_id, email, username) VALUES (?, ?, ?)
+        INSERT INTO user (email, username) VALUES (?, ?)
         """
     
         conn: Connection = UserDao.connect()
         cursor: Cursor = conn.cursor()
-        cursor.execute(sql, (user.id, user.email, user.username))
+        cursor.execute(sql, (user.email, user.username))
         conn.commit()
 
     @staticmethod
@@ -42,6 +42,5 @@ class UserDao(Dao):
 
 
 if __name__ == "__main__":
-    for i in range(10):
-        UserDao.delete_by_id(i)
-
+    UserDao.insert(User(-1, "nikita.uschakow@icloud.comi", "Nikita"))
+    

@@ -16,7 +16,19 @@ class SetupDB(Dao):
     - [x] genre book
     - [x] genre
     """
+
+    def __init__(self):
+        super().__init__()
+        
+        SetupDB.setup_user_table()
+        SetupDB.setup_salt_table()
+        SetupDB.setup_hash_table()
+        SetupDB.setup_author_table()
+        SetupDB.setup_genre_table()
+        SetupDB.setup_books_table()
+        SetupDB.setup_genre_book_table()
     
+    @staticmethod
     def setup_salt_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS salt (
@@ -32,6 +44,7 @@ class SetupDB(Dao):
         cursor.execute(sql)
         conn.commit()
     
+    @staticmethod
     def setup_hash_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS hash (
@@ -46,7 +59,8 @@ class SetupDB(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql)
         conn.commit()
-
+    
+    @staticmethod
     def setup_user_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS user (
@@ -61,6 +75,7 @@ class SetupDB(Dao):
         cursor.execute(sql)
         conn.commit()
     
+    @staticmethod
     def setup_books_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS book (
@@ -77,7 +92,8 @@ class SetupDB(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql)
         conn.commit()
-            
+    
+    @staticmethod
     def setup_genre_book_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS book_genre (
@@ -94,6 +110,7 @@ class SetupDB(Dao):
         cursor.execute(sql)
         conn.commit()
     
+    @staticmethod
     def setup_genre_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS genre (
@@ -107,6 +124,7 @@ class SetupDB(Dao):
         cursor.execute(sql)
         conn.commit()
 
+    @staticmethod
     def setup_author_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS author (
@@ -122,11 +140,4 @@ class SetupDB(Dao):
 
 
 if __name__ == "__main__":
-    
-    SetupDB.setup_user_table()
-    SetupDB.setup_salt_table()
-    SetupDB.setup_hash_table()
-    SetupDB.setup_author_table()
-    SetupDB.setup_genre_table()
-    SetupDB.setup_books_table()
-    SetupDB.setup_genre_book_table()
+    SetupDB()
