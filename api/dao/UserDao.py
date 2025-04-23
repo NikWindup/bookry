@@ -1,20 +1,23 @@
 from sqlite3 import Connection, Cursor
-from dao.Dao import Dao
-from model.User import User
+from api.dao.Dao import Dao
+from api.schemas.User import User
 
 
 class UserDao(Dao):
     
     @staticmethod
-    def insert(user: User) -> User:
+    def insert(email: str, username: str) -> User:
         sql = """
         INSERT INTO user (email, username) VALUES (?, ?)
         """
     
         conn: Connection = UserDao.connect()
         cursor: Cursor = conn.cursor()
-        cursor.execute(sql, (user.email, user.username))
+        cursor.execute(sql, (email, username))
         conn.commit()
+        
+        rowid = UserDao.select_last_rowid()
+        return User(id=rowid, email=email, username=username)
 
     @staticmethod
     def select_user_by_id(user_id: int) -> User:
@@ -39,8 +42,21 @@ class UserDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (user_id,))
         conn.commit()
+        
+    @staticmethod
+    def select_last_rowid():
+        sql = """
+        select user_id from user order by rowid desc LIMIT 1
+        """
+        
+        conn: Connection = UserDao.connect()
+        cursor: Cursor = conn.cursor()
+        cursor.execute(sql)
+        rowid = cursor.fetchone()
+        
+        return rowid[0]
 
 
 if __name__ == "__main__":
-    UserDao.insert(User(-1, "nikita.uschakow@icloud.comi", "Nikita"))
+    print(type(UserDao.select_lastrow_id()))
     
