@@ -1,6 +1,6 @@
 from sqlite3 import Connection, Cursor
-from api.dao.Dao import Dao
-from api.schemas.Book import Book
+from dao.Dao import Dao
+from schemas.Book import Book
 import time
 
 

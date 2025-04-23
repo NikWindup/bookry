@@ -1,6 +1,6 @@
 from sqlite3 import Connection, Cursor
-from api.dao.Dao import Dao
-from api.schemas.Genre import Genre
+from dao.Dao import Dao
+from schemas.Genre import Genre
 
 class GenreDao(Dao):
     

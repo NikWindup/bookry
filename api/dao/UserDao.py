@@ -1,6 +1,6 @@
 from sqlite3 import Connection, Cursor
-from api.dao.Dao import Dao
-from api.schemas.User import User
+from dao.Dao import Dao
+from schemas.User import User
 
 
 class UserDao(Dao):
