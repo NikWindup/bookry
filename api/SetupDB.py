@@ -25,7 +25,7 @@ class SetupDB(Dao):
         SetupDB.setup_hash_table()
         SetupDB.setup_author_table()
         SetupDB.setup_genre_table()
-        SetupDB.setup_books_table()
+        SetupDB.setup_book_table()
         SetupDB.setup_genre_book_table()
     
     @staticmethod
@@ -76,15 +76,17 @@ class SetupDB(Dao):
         conn.commit()
     
     @staticmethod
-    def setup_books_table() -> None:
+    def setup_book_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS book (
             book_id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             author TEXT NOT NULL,
             language TEXT,
-            started TEXT,
-            finished TEXT, rating INTEGER
+            started TEXT NOT NULL,
+            finished TEXT,
+            rating INTEGER,
+            isbn TEXT NOT NULL UNIQUE
             )
         """
 

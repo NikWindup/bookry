@@ -1,6 +1,5 @@
-import sqlite3
 from sqlite3 import Connection, Cursor
-from dao.Dao import Dao
+from api.dao.Dao import Dao
 
 
 class BookGenreDao(Dao):
@@ -19,7 +18,7 @@ class BookGenreDao(Dao):
     @staticmethod
     def select_by_book_id(book_id: int):
         sql = """
-        SELECT * FROM genre WHERE book_id = ?
+        SELECT name FROM genre WHERE book_id = ?
         """
         
         conn: Connection = BookGenreDao.connect()

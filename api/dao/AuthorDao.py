@@ -41,4 +41,4 @@ class AuthorDao(Dao):
 
 
 if __name__ == "__main__":
-    print(AuthorDao.delete(1))
+    AuthorDao.insert("Lauren Roberts")

@@ -7,9 +7,9 @@ from .Genre import Genre
 class Book(BaseModel):
     id: int
     title: str
-    author: str
-    language: str
-    genres: List[Genre]
-    started: str
-    finished: Optional[str]
-    rating: int
+    author: int
+    language: Optional[str] = None
+    started: Optional[str] = None
+    finished: Optional[str] = None
+    rating: Optional[int] = None
+    isbn: str

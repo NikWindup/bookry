@@ -1,5 +1,5 @@
 from sqlite3 import Connection, Cursor
-from dao.Dao import Dao
+from api.dao.Dao import Dao
 
 
 class SaltDao(Dao):

@@ -17,7 +17,8 @@ class Genre(str, Enum):
     thriller = "thriller"
     suspense = "suspense"
     dystopian = "dystopian"
-    big_brain = "Big Brain 🧠"  # By a request of the lovely client 
+    big_brain = "big-brain-🧠"  # By a request of the lovely client 
+    young_adult = "young-adult"
     
     """Nonfiction genres"""
     biography = "biography"
