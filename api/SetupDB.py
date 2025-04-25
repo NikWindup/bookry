@@ -79,6 +79,7 @@ class SetupDB(Dao):
     def setup_book_table() -> None:
         sql = """
         CREATE TABLE IF NOT EXISTS book (
+            user_id INTEGER,
             book_id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             author TEXT NOT NULL,
@@ -86,7 +87,8 @@ class SetupDB(Dao):
             started TEXT NOT NULL,
             finished TEXT,
             rating INTEGER,
-            isbn TEXT NOT NULL UNIQUE
+            isbn TEXT NOT NULL UNIQUE,
+            FOREIGN KEY (user_id) REFERENCES user (user_id)
             )
         """
 
