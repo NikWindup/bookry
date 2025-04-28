@@ -5,9 +5,10 @@ from .Genre import Genre
 
 
 class Book(BaseModel):
+    user_id: int
     id: int
     title: str
-    author: int
+    author_id: int
     language: Optional[str] = None
     started: Optional[str] = None
     finished: Optional[str] = None

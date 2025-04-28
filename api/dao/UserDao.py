@@ -58,5 +58,5 @@ class UserDao(Dao):
 
 
 if __name__ == "__main__":
-    print(type(UserDao.select_lastrow_id()))
+    UserDao.insert(email="nikita.uschakow@icloud.com", username="NikWndup")
     

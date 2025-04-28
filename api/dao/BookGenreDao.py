@@ -18,14 +18,14 @@ class BookGenreDao(Dao):
     @staticmethod
     def select_by_book_id(book_id: int):
         sql = """
-        SELECT name FROM genre WHERE book_id = ?
+        SELECT genre_id FROM book_genre WHERE book_id = ?
         """
         
         conn: Connection = BookGenreDao.connect()
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (book_id,))
-        genres = cursor.fetchall()
-        return genres
+        genre_ids = cursor.fetchall()
+        return genre_ids
     
     @staticmethod
     def delete_by_book_id(book_id: int):
@@ -37,3 +37,7 @@ class BookGenreDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (book_id,))
         conn.commit()
+
+
+if __name__ == "__main__":
+    pass
