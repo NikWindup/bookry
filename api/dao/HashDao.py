@@ -1,5 +1,6 @@
 from sqlite3 import Connection, Cursor
 from dao.Dao import Dao
+import hashlib
 
 
 class HashDao(Dao):
@@ -25,7 +26,8 @@ class HashDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (user_id,))
         salt = cursor.fetchone()
-        return salt
+        
+        return salt[0]
     
     @staticmethod
     def delete_by_user_id(user_id: int) -> None:
@@ -37,9 +39,14 @@ class HashDao(Dao):
         cursor: Cursor = conn
         cursor.execute(sql, (user_id,))
         conn.commit()
+    
+    @staticmethod
+    def hash(password: str, salt: str):
+        hash = hashlib.sha256(password + salt).hexdigest
+        return hash
 
 
 if __name__ == "__main__":
-    HashDao.insert(0, "Kristi123")
-    print(HashDao.select_by_user_id(0))
-    HashDao.delete_by_user_id(0)
+    HashDao.insert(1, "Kristi123")
+    print(HashDao.select_by_user_id(1))
+    HashDao.delete_by_user_id(1)

@@ -88,6 +88,7 @@ class SetupDB(Dao):
             finished TEXT,
             rating INTEGER,
             isbn TEXT NOT NULL UNIQUE,
+            reading_status,
             FOREIGN KEY (user_id) REFERENCES user (user_id),
             FOREIGN KEY (author_id) REFERENCES author (author_id)
             )

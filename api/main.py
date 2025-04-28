@@ -32,14 +32,24 @@ app.add_middleware(
 
 """User"""
 
-@app.post("/users")
+@app.post("/register")
 async def post_user(user: User):
     try:
-        UserDao.insert(user.email, user.username)
-        return {"message" : "Succesful"}
+        if not UserDao.select_by_email(user.email):
+            UserDao.insert(user.email, user.username)
+            return {"message" : "Succesful"}
+        else:
+            return {"message" : "User by this credentials already exists. Consider loging in."}
     except Exception as e:
-        return {"error" : dict(e)}
+        return {"error" : str(e)}
 
+@app.post("/login")
+async def get_user(email: str, password):
+    try:
+        requesting_user = UserDao.select_by_email(email=email)
+        
+        if UserDao.select_user_by_id(user_id=requesting_user.id):
+            return {}
 
 """Books"""
 
@@ -47,19 +57,20 @@ async def post_user(user: User):
 async def get_book(book_id):
     try:    
         book = BookDao.select_by_id(book_id)
+        author = AuthorDao.select_by_author_id(author_id=book.author_id)
         genre_ids = BookGenreDao.select_by_book_id(book_id=book_id)
+        
         genres = []
         for id in genre_ids:
             genres.append(GenreDao.select_by_genre_id(genre_id=id))
         
-        return {"book" : book, "genres" : genres}
+        return {"book" : book, "author" : author, "genres" : genres}
     except Exception as e:
         return {"error" : str(e)}
 
 @app.post("/books/")
 async def post_book(book: Book, genres: List[Genre]):
     try:
-        print(book.author_id)
         book_id = BookDao.insert(book)
         for genre in genres:
             BookGenreDao.insert(
@@ -69,11 +80,33 @@ async def post_book(book: Book, genres: List[Genre]):
         return {"message": "Succesfully added book", "book": dict(book), "genres" : genres}
     except Exception as e:
         return {"error" : str(e)}
- 
-@app.post("/genres/")
-async def post_genre(genre: Genre):
+
+@app.put("/books/{book_id}/rating")
+async def put_rating(book_id: int, rating: int):
     try:
-        GenreDao.insert(genre_name=genre)
-        return {"message" : "success", "genre" : genre}
+        if not BookDao.select_by_id(book_id=book_id).rating:
+            BookDao.update_rating(book_id=book_id, rating=rating)
+            return {"message" : "Succesfully added the rating"}
+        else:
+            return {"message" : "You already put a rating"}
+    except Exception as e:
+        return {"error" : str(e)}
+
+@app.put("/books/{book_id}/finished")
+async def put_finished(book_id):
+    try:
+        if not BookDao.select_by_id(book_id=book_id).finished:
+            BookDao.update_finished(book_id=book_id)
+            return {"message" : "Succesfully added the finished date"}
+        else:
+            return {"message" : "You already finished the book"}
+    except Exception as e:
+        return {"error" : str(e)}
+
+@app.put("/books/{book_id}/status")
+async def put_reading_status(book_id):
+    try:
+        BookDao.update_reading_status(book_id=book_id)
+        return {"message" : "Succesfully changed the reading_status"}
     except Exception as e:
         return {"error" : str(e)}

@@ -25,6 +25,7 @@ class BookGenreDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (book_id,))
         genre_ids = cursor.fetchall()
+        
         return genre_ids
     
     @staticmethod

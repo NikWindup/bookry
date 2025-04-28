@@ -37,6 +37,9 @@ class SaltDao(Dao):
         cursor: Cursor = conn
         cursor.execute(sql, (user_id,))
         conn.commit()
+    
+    def __generate_salt():
+        return pass
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 from sqlite3 import Connection, Cursor
 from dao.Dao import Dao
 from schemas.Book import Book
+from schemas.ReadingStatus import ReadingStatus
 import time
 
 
@@ -30,27 +31,27 @@ class BookDao(Dao):
         return BookDao.select_last_rowid()
 
     @staticmethod
-    def update_language(language: str, book_id: int):
-        sql = """
-        UPDATE book SET language = ? WHERE book_id = ?
-        """
-        
-        conn: Connection = BookDao.connect()
-        cursor: Cursor = conn.cursor()
-        cursor.execute(sql, (language, book_id))
-        conn.commit()
-    
-    @staticmethod
     def update_finished(book_id: int):
         sql = """
         UPDATE book SET finished = ? WHERE book_id = ?
         """
         
-        finished_time = BookDao.__get_current_time()
+        finished_time = BookDao.__get_current_time()  # Date-Format: dd-(m)m-yyyy
         
         conn: Connection = BookDao.connect()
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (finished_time, book_id))
+        conn.commit()
+    
+    @staticmethod
+    def update_reading_status(book_id: int, status: ReadingStatus):
+        sql = """
+        UPDATE book SET reading_status = ? WHERE book_id = ?
+        """
+        
+        conn: Connection = BookDao.connect()
+        cursor: Cursor = conn.cursor()
+        cursor.execute(sql, (status, book_id))
         conn.commit()
     
     @staticmethod
@@ -74,7 +75,6 @@ class BookDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (book_id,))
         book_data = cursor.fetchone()
-        print(book_data)
         
         return Book(
             id=book_id,
@@ -124,6 +124,6 @@ class BookDao(Dao):
 
 
 if __name__ == "__main__":
-    BookDao.insert(user_id=1, title="Reckless", author_id=1, language="en", isbn="123342345")
+    BookDao.insert(user_id=1, title="Reckless", author_id=1, isbn="123342345")
     print(BookDao.select_by_id(3))
     

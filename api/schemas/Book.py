@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from enum import Enum
 from typing import List, Optional
 from .Genre import Genre
+from .ReadingStatus import ReadingStatus
 
 
 class Book(BaseModel):
@@ -14,3 +15,4 @@ class Book(BaseModel):
     finished: Optional[str] = None
     rating: Optional[int] = None
     isbn: str
+    reading_status: Optional[ReadingStatus] = ReadingStatus.wishlist

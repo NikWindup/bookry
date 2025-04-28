@@ -29,7 +29,22 @@ class UserDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (user_id,))
         user_data = cursor.fetchone()
+        
         email, username = user_data[0], user_data[1]
+        return User(id=user_id, email=email, username=username)
+
+    @staticmethod
+    def select_by_email(email: str) -> User:
+        sql = """
+        SELECT user_id, username FROM user WHERE email = ?
+        """
+        
+        conn: Connection = UserDao.connect()
+        cursor: Cursor = conn.cursor()
+        cursor.execute(sql, (email,))
+        user_data = cursor.fetchone()
+        
+        user_id, username = user_data[0], user_data[1]
         return User(id=user_id, email=email, username=username)
     
     @staticmethod
