@@ -1,5 +1,30 @@
 """
 Tutorial: https://fastapi.tiangolo.com/tutorial
+
+This FastAPI application provides endpoints for user registration, login, and book management.
+
+Endpoints:
+1. User:
+   - POST /register: Register a new user with email, username, and password.
+   - POST /login: Log in a user using email and password. Supports cookie-based authentication.
+
+2. Books:
+   - GET /books/{book_id}: Retrieve details of a book, including its author and genres.
+   - POST /books/: Add a new book with associated genres.
+   - PUT /books/{book_id}/rating: Add or update a rating for a book.
+   - PUT /books/{book_id}/finished: Mark a book as finished with a completion date.
+   - PUT /books/{book_id}/status: Update the reading status of a book.
+
+Middleware:
+- CORS: Configured to allow requests from http://localhost and http://localhost:7777.
+
+Dependencies:
+- DAO modules for database operations (e.g., UserDao, BookDao, etc.).
+- Schema modules for data validation (e.g., Book, User, Genre).
+
+For more details, visit the FastAPI tutorial: https://fastapi.tiangolo.com/tutorial
+
+
 """
 
 from fastapi import FastAPI
@@ -9,6 +34,7 @@ from dao.GenreDao import GenreDao
 from dao.BookGenreDao import BookGenreDao
 from dao.AuthorDao import AuthorDao
 from dao.UserDao import UserDao
+from dao.HashDao import HashDao
 from schemas.Book import Book
 from schemas.User import User
 from schemas.Genre import Genre
@@ -19,7 +45,6 @@ app = FastAPI()
 
 origins = [
     "http://localhost",
-    "http://localhost:7777"
 ]
 
 app.add_middleware(
@@ -33,10 +58,10 @@ app.add_middleware(
 """User"""
 
 @app.post("/register")
-async def post_user(user: User):
+async def post_user(email: str, username: str, password: str):
     try:
-        if not UserDao.select_by_email(user.email):
-            UserDao.insert(user.email, user.username)
+        if not UserDao.select_by_email(email):
+            UserDao.insert(email, username)
             return {"message" : "Succesful"}
         else:
             return {"message" : "User by this credentials already exists. Consider loging in."}
@@ -47,9 +72,11 @@ async def post_user(user: User):
 async def get_user(email: str, password):
     try:
         requesting_user = UserDao.select_by_email(email=email)
-        
-        if UserDao.select_user_by_id(user_id=requesting_user.id):
-            return {}
+        HashDao.select_by_user_id(user_id=requesting_user.id)
+        if requesting_user and :
+            return {"message" : "Succesfully logged in"}
+    except Exception as e:
+        return {"error" : str(e)}
 
 """Books"""
 
