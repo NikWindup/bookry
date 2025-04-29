@@ -1,10 +1,8 @@
 
-# bookry 
-
----
+# bookry c
 
 Bookry is a simple App for tracking the books you have read.
-
+---
 ##Preview
 
 Images follow
