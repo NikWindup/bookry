@@ -5,7 +5,7 @@ Bookry is a simple App for tracking the books you have read.
 ---
 ## Preview
 
-_Images follow_c
+_Images follow_
 
 ## Tech Stack
 * React.js
