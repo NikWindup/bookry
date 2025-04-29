@@ -49,7 +49,7 @@ If you are a developer run
 ```bash
 fastapi dev main.py
 ```
-### Chango into frontend directory
+### Change into frontend directory
 ```bash
 cd ..
 cd frontend
