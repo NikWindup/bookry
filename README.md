@@ -3,7 +3,7 @@
 
 Bookry is a simple App for tracking the books you have read.
 ---
-##Preview
+## Preview
 
 Images follow
 
