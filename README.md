@@ -3,7 +3,8 @@
 
 ---
 
-Bookry is a simple App for tracking the books you have read in that specific year.
+Bookry is a simple App for tracking the books you have read.
+
 ##Preview
 _Images follow_
 
