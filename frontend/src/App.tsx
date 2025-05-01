@@ -1,7 +1,11 @@
-import ListGroup from "./components/ListGroup";
+import Landing from "./pages/Landing";
 
 function App() {
-  return <div><ListGroup></ListGroup></div>
+  return (
+    <>
+      <Landing></Landing>
+    </>
+  )
 }
 
 export default App;

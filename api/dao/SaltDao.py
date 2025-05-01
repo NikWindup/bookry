@@ -1,19 +1,24 @@
 from sqlite3 import Connection, Cursor
 from dao.Dao import Dao
+import os
 
 
 class SaltDao(Dao):
     
     @staticmethod
-    def insert(user_id: int, salt: str) -> None:
+    def insert(user_id: int) -> None:
         sql = """
         INSERT INTO salt (user_id, salt) VALUES (?, ?)
         """
+        
+        salt = SaltDao.generate_salt()
         
         conn: Connection = SaltDao.connect()
         cursor: Cursor = conn
         cursor.execute(sql, (user_id, salt))
         conn.commit()
+        
+        return salt
     
     @staticmethod
     def select_by_user_id(user_id: int) -> str:
@@ -25,7 +30,7 @@ class SaltDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (user_id,))
         salt = cursor.fetchone()
-        return salt
+        return salt[0]
     
     @staticmethod
     def delete_by_user_id(user_id: int) -> None:
@@ -38,9 +43,10 @@ class SaltDao(Dao):
         cursor.execute(sql, (user_id,))
         conn.commit()
     
-    def __generate_salt():
-        return pass
+    def generate_salt():
+        salt = os.urandom(16)
+        return salt.hex()
 
 
 if __name__ == "__main__":
-    print(SaltDao.delete_by_user_id(0))
+    print(SaltDao.generate_salt())

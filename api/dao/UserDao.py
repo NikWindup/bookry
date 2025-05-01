@@ -43,10 +43,13 @@ class UserDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (email,))
         user_data = cursor.fetchone()
+        try:
+            user_id, username = user_data[0], user_data[1]
+            return User(id=user_id, email=email, username=username)
+        except Exception:
+            return None
         
-        user_id, username = user_data[0], user_data[1]
-        return User(id=user_id, email=email, username=username)
-    
+        
     @staticmethod
     def delete_by_id(user_id: int) -> bool:
         sql = """

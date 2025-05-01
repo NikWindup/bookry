@@ -35,6 +35,7 @@ from dao.BookGenreDao import BookGenreDao
 from dao.AuthorDao import AuthorDao
 from dao.UserDao import UserDao
 from dao.HashDao import HashDao
+from dao.SaltDao import SaltDao
 from schemas.Book import Book
 from schemas.User import User
 from schemas.Genre import Genre
@@ -60,11 +61,13 @@ app.add_middleware(
 @app.post("/register")
 async def post_user(email: str, username: str, password: str):
     try:
-        if not UserDao.select_by_email(email):
-            UserDao.insert(email, username)
-            return {"message" : "Succesful"}
+        if not UserDao.select_by_email(email=email):
+            user = UserDao.insert(email, username)
+            salt = SaltDao.insert(user_id=user.id)
+            HashDao.insert(user_id=user.id, password=password, salt=salt)
+            return {"message" : "Successful"}
         else:
-            return {"message" : "User by this credentials already exists. Consider loging in."}
+            return {"error" : "Email already taken."}
     except Exception as e:
         return {"error" : str(e)}
 
@@ -72,8 +75,10 @@ async def post_user(email: str, username: str, password: str):
 async def get_user(email: str, password):
     try:
         requesting_user = UserDao.select_by_email(email=email)
-        HashDao.select_by_user_id(user_id=requesting_user.id)
-        if requesting_user and :
+        hash = HashDao.select_by_user_id(user_id=requesting_user.id)
+        salt = SaltDao.select_by_user_id(user_id=requesting_user.id)
+        
+        if requesting_user and HashDao.hash(password=password, salt=salt) == hash:
             return {"message" : "Succesfully logged in"}
     except Exception as e:
         return {"error" : str(e)}
