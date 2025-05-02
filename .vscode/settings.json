@@ -8,5 +8,8 @@
       "name": "Bookry DB"
     }
   ],
-  "java.search.scope": "main"
+  "java.search.scope": "main",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }

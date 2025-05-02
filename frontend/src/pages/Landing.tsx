@@ -1,11 +1,13 @@
 function Landing() {
     return (
-        <div className="container align-self-center">
-            <div className=" flex-column">
-                <button type="button" className=" btn btn-dark">Login</button>
-                <button type="button" className=" btn btn-dark">Register</button>
-            </div>
-        </div>
+        <>
+            <header className="flex flex-row items-stretch">
+                <span className="text-2xl">Bookry</span>
+                <ul>
+                    <li></li>
+                </ul>
+            </header>
+        </>
     );
 }
 
