@@ -1,9 +1,5 @@
 function Login() {
 
-    const handleSubmit => (e) = {
-
-    }
-
     return (
         <>
             <div>

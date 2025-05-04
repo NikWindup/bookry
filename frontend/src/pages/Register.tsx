@@ -1,4 +1,9 @@
 function Register() {
+
+    const handleSubmit = () => {
+        
+    }
+
     return (
         <>
             <div>
@@ -13,7 +18,7 @@ function Register() {
                         <label htmlFor="password">Password</label>
                         <input type="text" id="password" />
 
-                        <button type="submit" className="bg-black text-white">Login</button>
+                        <button type="submit" className="bg-black text-white" onClick={handleSubmit}>Login</button>
                     </form>
                 </div>
             </div>
