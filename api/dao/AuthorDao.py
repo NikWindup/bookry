@@ -5,18 +5,32 @@ from dao.Dao import Dao
 class AuthorDao(Dao):
     
     @staticmethod
-    def insert(name: str):
-        sql = """
-        INSERT INTO author (name) VALUES (?)
+    def insert(name: str) -> int:
+        # First check if author exists
+        sql_check = """
+        SELECT author_id FROM author WHERE name = ?
         """
         
         conn: Connection = AuthorDao.connect()
         cursor: Cursor = conn.cursor()
-        cursor.execute(sql, (name,))
+        cursor.execute(sql_check, (name,))
+        existing_author = cursor.fetchone()
+        
+        if existing_author:
+            return existing_author[0]
+        
+        # If author doesn't exist, create new one
+        sql_insert = """
+        INSERT INTO author (name) VALUES (?)
+        """
+        
+        cursor.execute(sql_insert, (name,))
         conn.commit()
+        
+        return AuthorDao.select_last_rowid()
     
     @staticmethod
-    def select_by_author_id(author_id: int):
+    def select_by_author_id(author_id: int) -> str:
         sql = """
         SELECT name FROM author WHERE author_id = ?
         """
@@ -26,7 +40,7 @@ class AuthorDao(Dao):
         cursor.execute(sql, (author_id,))
         name = cursor.fetchone()
 
-        return name[0]
+        return name[0] if name else None
     
     @staticmethod
     def delete(author_id: int):
@@ -38,6 +52,19 @@ class AuthorDao(Dao):
         cursor: Cursor = conn.cursor()
         cursor.execute(sql, (author_id,))
         conn.commit()
+        
+    @staticmethod
+    def select_last_rowid() -> int:
+        sql = """
+        SELECT author_id FROM author ORDER BY rowid DESC LIMIT 1
+        """
+        
+        conn: Connection = AuthorDao.connect()
+        cursor: Cursor = conn.cursor()
+        cursor.execute(sql)
+        rowid = cursor.fetchone()
+        
+        return rowid[0] if rowid else None
 
 
 if __name__ == "__main__":

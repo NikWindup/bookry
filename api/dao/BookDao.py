@@ -3,14 +3,19 @@ from dao.Dao import Dao
 from schemas.Book import Book
 from schemas.ReadingStatus import ReadingStatus
 import time
+from dao.AuthorDao import AuthorDao
 
 
 class BookDao(Dao):
     
     @staticmethod
-    def insert(book: Book) -> int:
+    def insert(title: str, author: str, status: str, user_id: int, cover_id: int = None, publish_year: int = None) -> int:
+        # First insert the author
+        author_id = AuthorDao.insert(author)
+        
         sql = """
-        INSERT INTO book (user_id, title, author_id, language, started, isbn) VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO book (user_id, title, author_id, language, started, isbn, reading_status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         """
         
         conn: Connection = BookDao.connect()
@@ -18,12 +23,13 @@ class BookDao(Dao):
         cursor.execute(
             sql,
             (
-                book.user_id,
-                book.title,
-                book.author_id,
-                book.language,
+                user_id,
+                title,
+                author_id,
+                "en",  # Default language
                 BookDao.__get_current_time(),
-                book.isbn
+                f"ISBN-{int(time.time())}",  # Generate a temporary ISBN
+                status
             )
         )
         conn.commit()
@@ -68,7 +74,10 @@ class BookDao(Dao):
     @staticmethod
     def select_by_id(book_id: int) -> Book:
         sql = """
-        SELECT user_id, title, author_id, language, started, finished, rating, isbn FROM book WHERE book_id = ?
+        SELECT b.user_id, b.title, b.author_id, b.language, b.started, b.finished, b.rating, b.isbn, b.reading_status, a.name as author_name
+        FROM book b
+        LEFT JOIN author a ON b.author_id = a.author_id
+        WHERE b.book_id = ?
         """
         
         conn: Connection = BookDao.connect()
@@ -76,16 +85,21 @@ class BookDao(Dao):
         cursor.execute(sql, (book_id,))
         book_data = cursor.fetchone()
         
+        if not book_data:
+            return None
+            
         return Book(
             id=book_id,
             user_id=book_data[0],
-            title=book_data[1] ,
+            title=book_data[1],
+            author=book_data[9],  # author_name from the join
             author_id=book_data[2],
             language=book_data[3],
             started=book_data[4],
             finished=book_data[5],
             rating=book_data[6],
-            isbn=book_data[7]
+            isbn=book_data[7],
+            status=book_data[8]  # reading_status
         )
         
     @staticmethod

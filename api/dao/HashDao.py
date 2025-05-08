@@ -44,13 +44,5 @@ class HashDao(Dao):
     
     @staticmethod
     def hash(password: str, salt: str):
-        print(type(password), salt)
         hash = hashlib.sha256((password + salt).encode()).hexdigest()
-        print(f"Hash: {type(hash)}")
         return hash
-
-
-if __name__ == "__main__":
-    HashDao.insert(1, "Kristi123")
-    print(HashDao.select_by_user_id(1))
-    HashDao.delete_by_user_id(1)
